@@ -156,9 +156,12 @@ function processContains(item,list,cb) {
  * [2] Invoking `processDuplicateFree` passing `[1,1,2,2,3]` and `(arr) => arr.length`,
  * should return 3.
 */
-function processDuplicateFree(list,cb) {
-  
+function processDuplicateFree(list, cb) {
+  let listSet = new Set(list);
+  let newList = Array.from(listSet);
+  return cb(newList);
 }
+
 
 /////////////// HIGHER-ORDER ARRAY METHODS ///////////////
 /////////////// HIGHER-ORDER ARRAY METHODS ///////////////
@@ -178,10 +181,11 @@ function processDuplicateFree(list,cb) {
  * @returns an array with all the runners' full names in the following format: "Smith, John".
  * The full names appear in the array in the same order the runners appear in the `runners` array.
 */
-function getFullNames(/* CODE HERE */) {
-  /* CODE HERE */
+function getFullNames(array) {
+  const runnerInfo=[];
+  array.forEach((person)=>runnerInfo.push(`${person.last_name}, ${person.first_name}`));
+  return runnerInfo;
 }
-
 /**
  * ### Challenge `firstNamesAllCaps`
  * 
@@ -194,8 +198,10 @@ function getFullNames(/* CODE HERE */) {
  * @returns an array with all the runners' first names in ALL CAPS.
  * The first names appear in the array in the same order the runners appear in the `runners` array.
 */
-function firstNamesAllCaps(/* CODE HERE */) {
-  /* CODE HERE */
+function firstNamesAllCaps(array) {
+  const capName=[];
+  array.map((person)=>capName.push(`${person.first_name.toUpperCase()}`));
+  return capName;
 }
 
 /**
@@ -211,22 +217,23 @@ function firstNamesAllCaps(/* CODE HERE */) {
  * @returns an array containing only the runners that use the given `tShirtSize`.
  * The runners in the array appear in the same order they appear in the `runners` array.
 */
-function getRunnersByTShirtSize(/* CODE HERE */) {
-  /* CODE HERE */
+function getRunnersByTShirtSize(array,tShirtSize) {
+  
+  return array.filter((person)=> person.shirt_size === tShirtSize);
+  
 }
 
-/**
- * ### Challenge `tallyUpDonations`
- * 
- * @instructions
- * The donations need to be tallied up and reported for tax purposes.
- * Implement this function using reduce().
- * 
- * @param runners array of runners like the one inside the /data/runners.js file.
- * @returns a number which is the sum of the donations by all runners.
-*/
-function tallyUpDonations(/* CODE HERE */) {
-  /* CODE HERE */
+//  * ### Challenge `tallyUpDonations`
+//  * 
+//  * @instructions
+//  * The donations need to be tallied up and reported for tax purposes.
+//  * Implement this function using reduce().
+//  * 
+//  * @param runners array of runners like the one inside the /data/runners.js file.
+//  * @returns a number which is the sum of the donations by all runners.
+// */
+function tallyUpDonations(array) {
+  return array.reduce((accumulator,person)=>accumulator + person.donation,0);
 }
 
 /////////////// CLOSURES ///////////////
@@ -246,13 +253,17 @@ function tallyUpDonations(/* CODE HERE */) {
  * etc
 */
 function counterMaker() {
-  // BROKEN CODE STARTS
-  const count = 0;
+  
+  let count = 0;
   function counter() {
-    ++count
+    return count++;
   }
-  // BROKEN CODE ENDS
+  return counter;
 }
+
+
+
+
 
 /**
  * ### Challenge `counterMakerWithLimit`
@@ -274,9 +285,17 @@ function counterMaker() {
  * counter() // should return 0
  * etc
 */
-function counterMakerWithLimit(/* CODE HERE */) {
-  /* CODE HERE */
+function counterMakerWithLimit(num) {
+  let count = 0;
+  function counter() {
+      count > num ? (count = 0) : count;
+      return count++;
+  }
+  return counter;
 }
+
+
+
 
 /////////////// END OF CHALLENGE ///////////////
 /////////////// END OF CHALLENGE ///////////////
